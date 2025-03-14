@@ -1,0 +1,333 @@
+Below are 30 additional questions designed to further test the Filing Query API for SEC EDGAR filings, along with their corresponding queries. These questions build on the previous set by exploring more complex scenarios, additional fields, and edge cases to ensure comprehensive coverage of the API's functionality. Each query is provided as a JSON payload, including query, from, size, and sort parameters where applicable, assuming a Lucene-based search syntax as supported by the SEC EDGAR API.
+
+
+1. What are the most recent 13F-HR filings for institutional investment managers?
+Query:
+json
+
+
+{
+  "query": "formType:\"13F-HR\"",
+  "from": "0",
+  "size": "50",
+  "sort": [{ "filedAt": { "order": "desc" }}]
+}
+2. Find all filings from companies with a CIK of '0000320193' (Apple's CIK).
+Query:
+json
+
+
+{
+  "query": "entities.cik:\"0000320193\"",
+  "from": "0",
+  "size": "50",
+  "sort": [{ "filedAt": { "order": "desc" }}]
+}
+3. What 10-K filings were submitted in 2020 sorted by oldest first?
+Query:
+json
+
+
+{
+  "query": "formType:\"10-K\" AND filedAt:[2020-01-01 TO 2020-12-31]",
+  "from": "0",
+  "size": "50",
+  "sort": [{ "filedAt": { "order": "asc" }}]
+}
+4. Find filings with Exhibit 3.1 (Articles of Incorporation) from 2023.
+Query:
+json
+
+
+{
+  "query": "documentFormatFiles.type:\"EX-3.1\" AND filedAt:[2023-01-01 TO 2023-12-31]",
+  "from": "0",
+  "size": "50",
+  "sort": [{ "filedAt": { "order": "desc" }}]
+}
+5. What are the 8-K filings excluding Item 5.07 from the past 6 months?
+Query:
+json
+
+
+{
+  "query": "formType:\"8-K\" AND NOT items:\"5.07\" AND filedAt:[2023-06-01 TO 2023-12-01]",
+  "from": "0",
+  "size": "50",
+  "sort": [{ "filedAt": { "order": "desc" }}]
+}
+6. Find filings from companies in the financial sector (SIC code 6000-6999) in 2022.
+Query:
+json
+
+
+{
+  "query": "entities.sic:[6000 TO 6999] AND filedAt:[2022-01-01 TO 2022-12-31]",
+  "from": "0",
+  "size": "50",
+  "sort": [{ "filedAt": { "order": "desc" }}]
+}
+7. What filings include both XBRL and PDF documents?
+Query:
+json
+
+
+{
+  "query": "dataFiles.type:\"EX-101.INS\" AND documentFormatFiles.type:\"*.pdf\"",
+  "from": "0",
+  "size": "50",
+  "sort": [{ "filedAt": { "order": "desc" }}]
+}
+8. Find all 3 filings (initial insider ownership) from the last quarter.
+Query:
+json
+
+
+{
+  "query": "formType:\"3\" AND filedAt:[2023-10-01 TO 2023-12-31]",
+  "from": "0",
+  "size": "50",
+  "sort": [{ "filedAt": { "order": "desc" }}]
+}
+9. What are the filings with a specific SIC code '2834' (Pharmaceutical Preparations)?
+Query:
+json
+
+
+{
+  "query": "entities.sic:2834",
+  "from": "0",
+  "size": "50",
+  "sort": [{ "filedAt": { "order": "desc" }}]
+}
+10. Find filings with a file description containing 'amended' in the documentFormatFiles.
+Query:
+json
+
+
+{
+  "query": "documentFormatFiles.description:amended",
+  "from": "0",
+  "size": "50",
+  "sort": [{ "filedAt": { "order": "desc" }}]
+}
+11. What are the 10-Q filings from companies with ticker symbols starting with 'G'?
+Query:
+json
+
+
+{
+  "query": "formType:\"10-Q\" AND ticker:G*",
+  "from": "0",
+  "size": "50",
+  "sort": [{ "filedAt": { "order": "desc" }}]
+}
+12. Find all filings from companies incorporated in New York in 2021.
+Query:
+json
+
+
+{
+  "query": "entities.stateOfIncorporation:NY AND filedAt:[2021-01-01 TO 2021-12-31]",
+  "from": "0",
+  "size": "50",
+  "sort": [{ "filedAt": { "order": "desc" }}]
+}
+13. What filings were submitted between 9 AM and 5 PM on January 15, 2023?
+Query:
+json
+
+
+{
+  "query": "filedAt:[2023-01-15T09:00:00 TO 2023-01-15T17:00:00]",
+  "from": "0",
+  "size": "50",
+  "sort": [{ "filedAt": { "order": "desc" }}]
+}
+14. Find all DEF 14A (Proxy Statements) filings from 2023.
+Query:
+json
+
+
+{
+  "query": "formType:\"DEF 14A\" AND filedAt:[2023-01-01 TO 2023-12-31]",
+  "from": "0",
+  "size": "50",
+  "sort": [{ "filedAt": { "order": "desc" }}]
+}
+15. What filings reference another filing with accession number '0001193125-22-123456'?
+Query:
+json
+
+
+{
+  "query": "referenceAccessionNo:\"0001193125-22-123456\"",
+  "from": "0",
+  "size": "50",
+  "sort": [{ "filedAt": { "order": "desc" }}]
+}
+16. Find filings with Exhibit 99.1 (Press Releases or Additional Information).
+Query:
+json
+
+
+{
+  "query": "documentFormatFiles.type:\"EX-99.1\"",
+  "from": "0",
+  "size": "50",
+  "sort": [{ "filedAt": { "order": "desc" }}]
+}
+17. What are the most recent filings sorted alphabetically by ticker symbol?
+Query:
+json
+
+
+{
+  "query": "*",
+  "from": "0",
+  "size": "50",
+  "sort": [{ "ticker": { "order": "asc" }}]
+}
+18. Find all filings from companies with a fiscal year end of December 31.
+Query:
+json
+
+
+{
+  "query": "entities.fiscalYearEnd:1231",
+  "from": "0",
+  "size": "50",
+  "sort": [{ "filedAt": { "order": "desc" }}]
+}
+19. What S-4 filings (Merger/Acquisition Registration) were filed in 2022?
+Query:
+json
+
+
+{
+  "query": "formType:\"S-4\" AND filedAt:[2022-01-01 TO 2022-12-31]",
+  "from": "0",
+  "size": "50",
+  "sort": [{ "filedAt": { "order": "desc" }}]
+}
+20. Find filings with a wildcard search for company names containing 'tech'.
+Query:
+json
+
+
+{
+  "query": "entities.companyName:*tech*",
+  "from": "0",
+  "size": "50",
+  "sort": [{ "filedAt": { "order": "desc" }}]
+}
+21. What are the filings with effectiveness dates in June 2023?
+Query:
+json
+
+
+{
+  "query": "effectivenessDate:[2023-06-01 TO 2023-06-30]",
+  "from": "0",
+  "size": "50",
+  "sort": [{ "filedAt": { "order": "desc" }}]
+}
+22. Find all filings with multiple form types (10-K, 10-Q, 8-K) from 2023.
+Query:
+json
+
+
+{
+  "query": "(formType:\"10-K\" OR formType:\"10-Q\" OR formType:\"8-K\") AND filedAt:[2023-01-01 TO 2023-12-31]",
+  "from": "0",
+  "size": "50",
+  "sort": [{ "filedAt": { "order": "desc" }}]
+}
+23. What filings include HTML documents in documentFormatFiles?
+Query:
+json
+
+
+{
+  "query": "documentFormatFiles.type:\"*.htm*\"",
+  "from": "0",
+  "size": "50",
+  "sort": [{ "filedAt": { "order": "desc" }}]
+}
+24. Find all filings from companies with a specific file number prefix '333-' (Registration Statements).
+Query:
+json
+
+
+{
+  "query": "entities.fileNo:333-*",
+  "from": "0",
+  "size": "50",
+  "sort": [{ "filedAt": { "order": "desc" }}]
+}
+25. What are the most recent filings with a class/contract ticker starting with 'V'?
+Query:
+json
+
+
+{
+  "query": "seriesAndClassesContractsInformation.classesContracts.ticker:V*",
+  "from": "0",
+  "size": "50",
+  "sort": [{ "filedAt": { "order": "desc" }}]
+}
+26. Find all N-CSR (Certified Shareholder Reports) filings from 2021.
+Query:
+json
+
+
+{
+  "query": "formType:\"N-CSR\" AND filedAt:[2021-01-01 TO 2021-12-31]",
+  "from": "0",
+  "size": "50",
+  "sort": [{ "filedAt": { "order": "desc" }}]
+}
+27. What filings were amended (e.g., 10-K/A) in 2023?
+Query:
+json
+
+
+{
+  "query": "formType:*A AND filedAt:[2023-01-01 TO 2023-12-31]",
+  "from": "0",
+  "size": "50",
+  "sort": [{ "filedAt": { "order": "desc" }}]
+}
+28. Find filings with a specific series ID 'S000012345' and form type N-Q.
+Query:
+json
+
+
+{
+  "query": "formType:\"N-Q\" AND seriesAndClassesContractsInformation.series:S000012345",
+  "from": "0",
+  "size": "50",
+  "sort": [{ "filedAt": { "order": "desc" }}]
+}
+29. What are the filings with no XBRL data?
+Query:
+json
+
+
+{
+  "query": "NOT dataFiles.type:\"EX-101.INS\"",
+  "from": "0",
+  "size": "50",
+  "sort": [{ "filedAt": { "order": "desc" }}]
+}
+30. Find all filings from the first week of 2023 (January 1-7).
+Query:
+json
+
+
+{
+  "query": "filedAt:[2023-01-01T00:00:00 TO 2023-01-07T23:59:59]",
+  "from": "0",
+  "size": "50",
+  "sort": [{ "filedAt": { "order": "desc" }}]
+}

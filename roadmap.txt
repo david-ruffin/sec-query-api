@@ -1,0 +1,68 @@
+# SEC Query Agent Roadmap
+
+## Changes Made
+
+### 1. Fixed Query Construction
+- Updated the `_run` method in `SECQueryTool` to properly handle the `sort` parameter as a JSON object rather than a string
+- Ensured the `total` field is correctly processed as an object with `value` and `relation` fields
+- Fixed date range handling in query construction
+- Limited the size parameter to 5 to avoid context length issues
+
+### 2. Improved Response Handling
+- Enhanced the `process_question` method to correctly extract the SEC API response from the agent's intermediate steps
+- Added better error handling for API responses
+- Ensured the formatted response includes the relevant information from the API response
+- Improved response formatting to show a concise summary of results
+
+### 3. Enhanced Query Translation
+- Added examples for searching specific exhibits using `documentFormatFiles.type` field
+- Added examples for searching document sections using `documentFormatFiles.description` field
+- Added examples for searching by CIK number: `cik:1318605`
+- Added examples for searching by SIC code: `entities.sic:7370`
+- Improved the system prompt to guide the LLM in generating more accurate queries
+- Added explicit warning against using relative date formats (NOW, NOW-1YEAR)
+
+### 4. Testing and Validation
+- Created test scripts to verify specific queries work correctly
+- Tested direct API queries to ensure compatibility with the SEC API
+- Validated CIK-based queries, SIC code queries, and exhibit searches
+
+### 5. Implemented Dynamic Date Handling
+- Added a `DateCalculator` class to programmatically calculate date ranges from relative time references
+- Enhanced the `translate` method in `QueryTranslator` to detect time-related patterns in questions
+- Implemented support for common time patterns like "last month", "last 3 months", "last quarter", etc.
+- Ensured all date ranges are formatted correctly for the SEC API as `filedAt:[YYYY-MM-DD TO YYYY-MM-DD]`
+- Maintained the AI-driven approach while adding programmatic date calculations for reliability
+
+## Lessons Learned
+
+1. The SEC API expects the `sort` parameter to be a list of dictionaries, not a string
+2. The `total` field in the API response is an object with `value` and `relation` fields, not a simple integer
+3. For searching specific exhibits, use `documentFormatFiles.type` (e.g., "EX-21" for Exhibit 21)
+4. For searching document sections, use `documentFormatFiles.description` (e.g., "Management's Discussion" for MD&A)
+5. The agent-based approach works well when the query translator and response formatter are properly configured
+6. The SEC API requires explicit date formats (YYYY-MM-DD) and does not support relative dates like NOW-1YEAR
+7. For industry-specific searches, use `entities.sic` with the appropriate SIC code
+8. Large result sets can cause context length issues with the LLM, so limiting result size is important
+9. A hybrid approach combining AI-driven query translation with programmatic date calculations provides the best balance of flexibility and reliability
+
+## Next Steps
+
+1. Add more examples to the query translator to cover additional use cases
+2. Enhance error handling to provide more informative messages when queries fail
+3. Consider adding pagination support for large result sets
+4. Add more comprehensive documentation for the SEC API query syntax
+5. Create a test suite to verify query construction and response handling
+6. Implement caching to improve performance for repeated queries
+7. Add support for more complex queries combining multiple fields
+8. Expand the DateCalculator to handle more complex time references
+
+### 6. Optimized Tool Description and Fixed Temperature Settings
+- Set temperature=0 in all language model components (QueryTranslator, ResponseFormatter, SECQueryAgent) to ensure consistent outputs
+- Shortened the SECQueryTool description to be under the 1024 character limit imposed by the OpenAI API
+- Updated README to document the temperature settings and tool description optimization
+- Verified functionality with a comprehensive set of test queries
+
+## Sources Consulted
+- [OpenAI Tool Calling documentation](https://community.openai.com/t/tool-calling-api-upgrade-1024-char-limit-is-limiting/951951) - Identified the 1024 character limitation for tool descriptions
+- [SEC API Documentation](https://sec-api.io/docs/query-api) - Used to ensure our sort parameters and queries are correctly formatted
