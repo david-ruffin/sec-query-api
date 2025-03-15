@@ -34,6 +34,19 @@
 - Ensured all date ranges are formatted correctly for the SEC API as `filedAt:[YYYY-MM-DD TO YYYY-MM-DD]`
 - Maintained the AI-driven approach while adding programmatic date calculations for reliability
 
+### 6. Optimized Tool Description and Fixed Temperature Settings
+- Set temperature=0 in all language model components (QueryTranslator, ResponseFormatter, SECQueryAgent) to ensure consistent outputs
+- Shortened the SECQueryTool description to be under the 1024 character limit imposed by the OpenAI API
+- Updated README to document the temperature settings and tool description optimization
+- Verified functionality with a comprehensive set of test queries
+
+### 7. Repository Organization
+- Moved all test files to the dedicated `tests/` directory following the project's coding workflow preferences
+- Consolidated test files to eliminate redundancy and improve maintainability
+- Kept essential test files: `test_file_queries.py`, `test_query_date_parsing.py`, `test_langchain_sec_query_agent.py`, and `test_translator.py`
+- Removed redundant test files that were superseded by more comprehensive tests
+- Maintained `test-queries.txt` in the root directory as it's a data file, not a test script
+
 ## Lessons Learned
 
 1. The SEC API expects the `sort` parameter to be a list of dictionaries, not a string
@@ -56,12 +69,8 @@
 6. Implement caching to improve performance for repeated queries
 7. Add support for more complex queries combining multiple fields
 8. Expand the DateCalculator to handle more complex time references
-
-### 6. Optimized Tool Description and Fixed Temperature Settings
-- Set temperature=0 in all language model components (QueryTranslator, ResponseFormatter, SECQueryAgent) to ensure consistent outputs
-- Shortened the SECQueryTool description to be under the 1024 character limit imposed by the OpenAI API
-- Updated README to document the temperature settings and tool description optimization
-- Verified functionality with a comprehensive set of test queries
+9. Implement response chunking for large result sets (>20 results) to handle context length issues
+10. Add total result count to responses to provide users with context about the full dataset
 
 ## Sources Consulted
 - [OpenAI Tool Calling documentation](https://community.openai.com/t/tool-calling-api-upgrade-1024-char-limit-is-limiting/951951) - Identified the 1024 character limitation for tool descriptions
